@@ -103,23 +103,29 @@ void Tritset::Shrink() {
     Resize(Length());
 }
 
-//REFERENCE
-
-/*bool Tritset::Reference::operator==(Trit t) const {
-    return trit == t;
+bool Tritset::Reference::operator==(Trit t) const {
+    return this->Get() == t;
 }
 
 bool Tritset::Reference::operator==(const Reference& x) const {
-    return trit == x.trit;
+    return trit_pos == x.trit_pos;
 }
 
 bool Tritset::Reference::operator!=(Trit t) const {
-    return trit != t;
+    return this->Get() != t;
 }
 
 bool Tritset::Reference::operator!=(const Reference& x) const {
-    return trit != x.trit;
-}*/
+    return trit_pos != x.trit_pos;
+}
+
+void Tritset::Reference::operator++() {
+    trit_pos++;
+}
+
+Tritset::Reference Tritset::Reference::operator*() {
+    return *this;
+}
 
 Tritset::Reference::Reference(Tritset *sett, size_t pos) {
     set = sett;
@@ -131,6 +137,15 @@ Trit Tritset::Reference::Get() const{
     char posu = 4*sizeof(uint) - trit_pos % (4*sizeof(uint));
     cur = cur >> posu*2;
     return (Trit)(cur % 4);
+}
+
+Tritset::Reference Tritset::begin(){
+    Tritset::Reference ref(this, 0);
+    return ref;
+}
+Tritset::Reference Tritset::end(){
+    Tritset::Reference ref(this, Length());
+    return ref;
 }
 
 Tritset::Reference& Tritset::Reference::operator=(Trit x) {
