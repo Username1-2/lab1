@@ -30,12 +30,12 @@ public:
         Reference& operator= (Trit x);
         Reference& operator= (const Reference& x);
         operator Trit() const;
-        /*bool operator== (Trit t) const;
+        bool operator== (Trit t) const;
         bool operator== (const Reference& x) const;
         bool operator!= (Trit t) const;
         bool operator!= (const Reference& x) const;
-
-        Trit operator~() const;*/
+        void operator++ ();
+        Reference operator* ();
 
         Reference& operator&= (Trit t);
         /*Reference& operator&= (const Reference& x);
@@ -61,11 +61,13 @@ public:
     size_t Capacity() const;
     size_t Size() const;
     size_t Cardinality(Trit value) const;
-    std::unordered_map<Trit, int, std::hash<int>> Cardinality();
+    std::unordered_map<Trit, int, std::hash<int>> Cardinality() const;
     void Resize(size_t nsize);
     void Shrink();
     void Print() const;
     void Print(size_t pos) const;
+    Reference begin();
+    Reference end();
 };
 
 Tritset operator& (const Tritset& left, const Tritset& tset);
