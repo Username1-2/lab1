@@ -269,3 +269,62 @@ TEST(TritsetTest, Tritset_Resize1) {
     set[999] = Unknown;
     ASSERT_EQ(set.Length(), 0);
 }
+
+TEST (TritsetTest, forauto) {
+    Tritset set1(9), set2(9);
+    set1[0] = set1[1] = set1[2] = False;
+    set1[3] = set1[4] = set1[5] = False;
+    set1[6] = set1[7] = set1[8] = False;
+    set2[0] = set2[3] = set2[6] = True;
+    set2[1] = set2[4] = set2[7] = True;
+    set2[2] = set2[5] = set2[8] = True;
+    for (auto item : set2) {
+        EXPECT_TRUE(item == True);
+    }
+    set1 &=  set2;
+    for (auto item : set1) {
+        EXPECT_TRUE(item == False);
+    }
+}
+
+TEST(TritsetTest, Tritset_test) {
+//резерв памяти для хранения 1000 тритов
+    Tritset set(1000);
+// length of internal array
+    size_t allocLength = set.Capacity();
+    assert(allocLength >= 1000 * 2 / 8 / sizeof(uint));
+// 1000*2 - min bits count
+// 1000*2 / 8 - min bytes count
+// 1000*2 / 8 / sizeof(uint) - min uint[] size
+
+
+//не выделяет никакой памяти
+    set[1000000000] = Unknown;
+    assert(allocLength == set.Capacity());
+
+// false, but no exception or memory allocation
+    if (set[2000000000]==True){}
+    assert(allocLength == set.Capacity());
+
+//выделение памяти
+    set[1000000000] = True;
+    assert(allocLength < set.Capacity());
+
+//no memory operations
+    allocLength = set.Capacity();
+    set[1000000000] = Unknown;
+    set[1000000] = False;
+    assert(allocLength == set.Capacity());
+
+//освобождение памяти до начального значения или
+//до значения необходимого для хранения последнего установленного трита
+//в данном случае для трита 1000’000
+    set.Shrink();
+    assert(allocLength > set.Capacity());
+
+
+    Tritset setA(1000);
+    Tritset setB(2000);
+    Tritset setC = setA & setB;
+    assert(setC.Capacity() == setB.Capacity());
+}
