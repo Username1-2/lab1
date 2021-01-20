@@ -31,11 +31,11 @@ public:
         Reference& operator= (const Reference& x);
         operator Trit() const;
         bool operator== (Trit t) const;
-        bool operator== (const Reference& x) const;
+        //bool operator== (const Reference& x) const;
         bool operator!= (Trit t) const;
-        bool operator!= (const Reference& x) const;
-        void operator++ ();
-        Reference operator* ();
+        //bool operator!= (const Reference& x) const;
+        //void operator++ ();
+        //Reference operator* ();
 
         Reference& operator&= (Trit t);
         /*Reference& operator&= (const Reference& x);
@@ -46,6 +46,31 @@ public:
         /*Reference& operator|= (const Reference& x);
         Trit operator| (Trit t) const;
         Trit operator| (const Reference& x) const;*/
+    };
+    class Iterator {
+    private:
+        friend class Tritset;
+        //friend class Reference;
+        Tritset *set;
+        size_t trit_pos;
+        Iterator(Tritset *sett, size_t pos) {
+            set = sett;
+            trit_pos = pos;
+        }
+    public:
+        bool operator== (const Iterator& x) const {
+            return (trit_pos == x.trit_pos);
+        }
+        bool operator!= (const Iterator& x) const {
+            return (trit_pos != x.trit_pos);
+        }
+        void operator++ () {
+            trit_pos++;
+        }
+        Reference operator* () {
+            Tritset::Reference ref(set, trit_pos);
+            return ref;
+        }
     };
     Tritset(size_t size);
     //~Tritset();
@@ -66,8 +91,8 @@ public:
     void Shrink();
     void Print() const;
     void Print(size_t pos) const;
-    Reference begin();
-    Reference end();
+    Iterator begin();
+    Iterator end();
 };
 
 Tritset operator& (const Tritset& left, const Tritset& tset);
