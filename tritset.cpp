@@ -107,15 +107,15 @@ bool Tritset::Reference::operator==(Trit t) const {
     return this->Get() == t;
 }
 
-bool Tritset::Reference::operator==(const Reference& x) const {
+/*bool Tritset::Reference::operator==(const Reference& x) const {
     return trit_pos == x.trit_pos;
-}
+}*/
 
 bool Tritset::Reference::operator!=(Trit t) const {
     return this->Get() != t;
 }
 
-bool Tritset::Reference::operator!=(const Reference& x) const {
+/*bool Tritset::Reference::operator!=(const Reference& x) const {
     return trit_pos != x.trit_pos;
 }
 
@@ -125,7 +125,7 @@ void Tritset::Reference::operator++() {
 
 Tritset::Reference Tritset::Reference::operator*() {
     return *this;
-}
+}*/
 
 Tritset::Reference::Reference(Tritset *sett, size_t pos) {
     set = sett;
